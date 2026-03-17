@@ -1,0 +1,75 @@
+message:
+   Rendez fonctionnel cette maquette
+   - Commandes utiles
+   netlab connect Mikrotik1 
+   netlab status 
+   netlab addressing
+   netlab validate 
+   netlab down 
+
+provider: clab
+module: [ ospf ]
+ospf.area: 0
+
+
+nodes:
+  Mikrotik1:
+    image: registry.iutbeziers.fr/mikrotik_routeros:7.18
+    device: routeros7
+  Mikrotik2:
+    image: registry.iutbeziers.fr/mikrotik_routeros:7.18
+    device: routeros7
+  Mikrotik3:
+    image: registry.iutbeziers.fr/mikrotik_routeros:7.18
+    device: routeros7
+  client1:
+    device: linux
+    image: wbitt/network-multitool:latest
+  client2:
+    device: linux
+    image: wbitt/network-multitool:latest
+
+links:
+- interfaces: [client1, Mikrotik1]
+
+- interfaces: [client2,Mikrotik3]
+
+- interfaces: [Mikrotik1,Mikrotik2]
+
+- interfaces: [Mikrotik2,Mikrotik3]
+
+
+validate:
+  wait:
+    description: attente de rip
+    wait: 10
+  ping:
+    description: Ping-based reachability test
+    nodes: [client1]
+    devices: [ linux ]
+    plugin: ping('client2',af='ipv4',count=3)
+  check_rip_routes:
+    description: Vérifier que frr4 reçoit les routes RIP
+    nodes: [ Mikrotik1 ]
+    devices: [ routeros7 ]
+    plugin: rip_route_count(7)
+  check_comp:
+    description: Vérifier le nombre (7) et la distance (120) des routes ospf
+    nodes: [ Mikrotik1 ]
+    # Argument 1 : expected_count, Argument 2 : expected_distance
+    plugin: check_comp(7, 120)
+  ospf_routes_mk1:
+    description: Vérifier le nombre de routes OSPF sur Mikrotik1 (4 routes attendues)
+    nodes: [ Mikrotik1 ]
+    devices: [ routeros7 ]
+    plugin: ospf_route_count(4)
+  ospf_routes_mk2:
+    description: Vérifier le nombre de routes OSPF sur Mikrotik2 (3 routes attendues)
+    nodes: [ Mikrotik2 ]
+    devices: [ routeros7 ]
+    plugin: ospf_route_count(4)
+  ospf_routes_mk3:
+    description: Vérifier le nombre de routes OSPF sur Mikrotik3 (3 routes attendues)
+    nodes: [ Mikrotik3 ]
+    devices: [ routeros7 ]
+    plugin: ospf_route_count(4)

@@ -1,0 +1,140 @@
+{
+  "links": [
+    {
+      "a": {
+        "interface": "eth1",
+        "node": "ceos1",
+        "peer": "z"
+      },
+      "z": {
+        "interface": "eth1",
+        "node": "ceos2",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "interface": "eth2",
+        "node": "ceos2",
+        "peer": "z"
+      },
+      "z": {
+        "interface": "eth1",
+        "node": "ceos3",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "interface": "eth2",
+        "node": "ceos3",
+        "peer": "z"
+      },
+      "z": {
+        "interface": "eth1",
+        "node": "ceos4",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "interface": "eth2",
+        "node": "ceos1",
+        "peer": "z"
+      },
+      "z": {
+        "interface": "eth1",
+        "node": "linux1",
+        "peer": "a"
+      }
+    },
+    {
+      "a": {
+        "interface": "eth2",
+        "node": "ceos4",
+        "peer": "z"
+      },
+      "z": {
+        "interface": "eth1",
+        "node": "linux2",
+        "peer": "a"
+      }
+    }
+  ],
+  "name": "rip_4nodes",
+  "nodes": {
+    "ceos1": {
+      "group": "tier-1",
+      "image": "registry.iutbeziers.fr/ceos:4.33.1F",
+      "kind": "eos",
+      "labels": {
+        "graph-icon": "switch",
+        "graph-level": 1
+      },
+      "mgmt-ipv4-address": "192.168.121.101",
+      "mgmt-ipv6-address": "",
+      "name": "ceos1"
+    },
+    "ceos2": {
+      "group": "tier-1",
+      "image": "registry.iutbeziers.fr/ceos:4.33.1F",
+      "kind": "eos",
+      "labels": {
+        "graph-icon": "switch",
+        "graph-level": 1
+      },
+      "mgmt-ipv4-address": "192.168.121.102",
+      "mgmt-ipv6-address": "",
+      "name": "ceos2"
+    },
+    "ceos3": {
+      "group": "tier-1",
+      "image": "registry.iutbeziers.fr/ceos:4.33.1F",
+      "kind": "eos",
+      "labels": {
+        "graph-icon": "switch",
+        "graph-level": 1
+      },
+      "mgmt-ipv4-address": "192.168.121.103",
+      "mgmt-ipv6-address": "",
+      "name": "ceos3"
+    },
+    "ceos4": {
+      "group": "tier-1",
+      "image": "registry.iutbeziers.fr/ceos:4.33.1F",
+      "kind": "eos",
+      "labels": {
+        "graph-icon": "switch",
+        "graph-level": 1
+      },
+      "mgmt-ipv4-address": "192.168.121.104",
+      "mgmt-ipv6-address": "",
+      "name": "ceos4"
+    },
+    "linux1": {
+      "group": "tier-1",
+      "image": "wbitt/network-multitool:latest",
+      "kind": "linux",
+      "labels": {
+        "graph-icon": "server",
+        "graph-level": 1
+      },
+      "mgmt-ipv4-address": "192.168.121.105",
+      "mgmt-ipv6-address": "",
+      "name": "linux1"
+    },
+    "linux2": {
+      "group": "tier-1",
+      "image": "wbitt/network-multitool:latest",
+      "kind": "linux",
+      "labels": {
+        "graph-icon": "server",
+        "graph-level": 1
+      },
+      "mgmt-ipv4-address": "192.168.121.106",
+      "mgmt-ipv6-address": "",
+      "name": "linux2"
+    }
+  },
+  "type": "clab"
+}

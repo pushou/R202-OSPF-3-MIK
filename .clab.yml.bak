@@ -1,0 +1,67 @@
+name: rip_4nodes
+prefix: "clab"
+
+mgmt:
+  network: netlab_mgmt
+  ipv4-subnet: 192.168.121.0/24
+  # Note: 'start' not validated
+topology:
+  nodes:
+    ceos1:
+      mgmt-ipv4: 192.168.121.101
+      kind: ceos
+      env: {'INTFTYPE': 'et', 'CLAB_MGMT_VRF': 'management'}
+      image: registry.iutbeziers.fr/ceos:4.33.1F
+      runtime: docker
+    ceos2:
+      mgmt-ipv4: 192.168.121.102
+      kind: ceos
+      env: {'INTFTYPE': 'et', 'CLAB_MGMT_VRF': 'management'}
+      image: registry.iutbeziers.fr/ceos:4.33.1F
+      runtime: docker
+    ceos3:
+      mgmt-ipv4: 192.168.121.103
+      kind: ceos
+      env: {'INTFTYPE': 'et', 'CLAB_MGMT_VRF': 'management'}
+      image: registry.iutbeziers.fr/ceos:4.33.1F
+      runtime: docker
+    ceos4:
+      mgmt-ipv4: 192.168.121.104
+      kind: ceos
+      env: {'INTFTYPE': 'et', 'CLAB_MGMT_VRF': 'management'}
+      image: registry.iutbeziers.fr/ceos:4.33.1F
+      runtime: docker
+    linux1:
+      mgmt-ipv4: 192.168.121.105
+      kind: linux
+      restart-policy: 'no'
+      image: wbitt/network-multitool:latest
+      runtime: docker
+      binds:
+      - clab_files/linux1/hosts:/etc/hosts
+    linux2:
+      mgmt-ipv4: 192.168.121.106
+      kind: linux
+      restart-policy: 'no'
+      image: wbitt/network-multitool:latest
+      runtime: docker
+      binds:
+      - clab_files/linux2/hosts:/etc/hosts
+
+
+  links:
+  - endpoints:
+    - "ceos1:et1"
+    - "ceos2:et1"
+  - endpoints:
+    - "ceos2:et2"
+    - "ceos3:et1"
+  - endpoints:
+    - "ceos3:et2"
+    - "ceos4:et1"
+  - endpoints:
+    - "ceos1:et2"
+    - "linux1:eth1"
+  - endpoints:
+    - "ceos4:et2"
+    - "linux2:eth1"

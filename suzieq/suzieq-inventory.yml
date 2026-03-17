@@ -1,0 +1,21 @@
+---
+data-directory: /parquet
+temp-directory: /tmp/
+
+sources:
+- name: netlab_ssh
+  hosts:
+  - url: ssh://admin:admin@192.168.121.101:22/
+  - url: ssh://admin:admin@192.168.121.102:22/
+  - url: ssh://admin:admin@192.168.121.103:22/
+  - url: ssh://admin:admin@192.168.121.104:22/
+
+devices:
+- name: ignore-known-hosts
+  ignore-known-hosts: true
+  transport: ssh
+
+namespaces:
+- name: netlab_ssh
+  source: netlab_ssh
+  device: ignore-known-hosts

@@ -1,0 +1,24 @@
+
+/system identity set name="Mikrotik1"
+
+/interface bridge add name=loopback protocol-mode=none
+
+
+/ip address add interface=loopback address=10.0.0.1/32
+
+
+
+
+/interface ethernet set comment="Mikrotik1 -> client1 [stub]" ether2
+
+/ip address add interface=ether2 address=172.16.0.1/24
+/ip address set [find where interface=ether2] comment="Mikrotik1 -> client1 [stub]"
+
+
+/interface ethernet set comment="Mikrotik1 -> Mikrotik2" ether3
+
+/ip address add interface=ether3 address=10.1.0.1/30
+/ip address set [find where interface=ether3] comment="Mikrotik1 -> Mikrotik2"
+
+
+/ip neighbor discovery-settings set discover-interface-list=all

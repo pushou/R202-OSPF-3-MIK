@@ -1,0 +1,60 @@
+name: r202OSPF1
+prefix: "clab"
+
+mgmt:
+  network: netlab_mgmt
+  ipv4-subnet: 192.168.121.0/24
+  # Note: 'start' not validated
+topology:
+  nodes:
+    Mikrotik1:
+      mgmt-ipv4: 192.168.121.101
+      kind: vr-ros
+      image: registry.iutbeziers.fr/mikrotik_routeros:7.18
+      runtime: docker
+      group: 
+    Mikrotik2:
+      mgmt-ipv4: 192.168.121.102
+      kind: vr-ros
+      image: registry.iutbeziers.fr/mikrotik_routeros:7.18
+      runtime: docker
+      group: 
+    Mikrotik3:
+      mgmt-ipv4: 192.168.121.103
+      kind: vr-ros
+      image: registry.iutbeziers.fr/mikrotik_routeros:7.18
+      runtime: docker
+      group: 
+    client1:
+      mgmt-ipv4: 192.168.121.104
+      kind: linux
+      restart-policy: 'no'
+      image: wbitt/network-multitool:latest
+      runtime: docker
+      group: netlab_no_reload
+      binds:
+      - node_files/-shared-hosts:/etc/hosts:ro
+    client2:
+      mgmt-ipv4: 192.168.121.105
+      kind: linux
+      restart-policy: 'no'
+      image: wbitt/network-multitool:latest
+      runtime: docker
+      group: netlab_no_reload
+      binds:
+      - node_files/-shared-hosts:/etc/hosts:ro
+
+
+  links:
+  - endpoints:
+    - "Mikrotik1:eth1"
+    - "client1:eth1"
+  - endpoints:
+    - "Mikrotik3:eth1"
+    - "client2:eth1"
+  - endpoints:
+    - "Mikrotik1:eth2"
+    - "Mikrotik2:eth1"
+  - endpoints:
+    - "Mikrotik2:eth2"
+    - "Mikrotik3:eth2"
