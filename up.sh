@@ -71,12 +71,12 @@ ros_cmd() {
   return 1
 }
 
-# Erreur 1 : Mikrotik2 - area OSPF 0.0.0.0 -> 0.0.0.1
+# Erreur 1 : Mikrotik2 - area OSPF 0.0.0.0 -> 0.0.0.1 (index 0 = seule area)
 echo "[ERRORS] Mikrotik2 : changement area-id 0.0.0.0 -> 0.0.0.1"
-ros_cmd "$MK2_IP" '/routing/ospf/area set main_2_0.0.0.0 area-id=0.0.0.1'
+ros_cmd "$MK2_IP" '/routing/ospf/area set 0 area-id=0.0.0.1'
 
-# Erreur 2 : Mikrotik3 - router-id dupliqué 10.0.0.3 -> 10.0.0.1
+# Erreur 2 : Mikrotik3 - router-id dupliqué 10.0.0.3 -> 10.0.0.1 (index 0 = seule instance)
 echo "[ERRORS] Mikrotik3 : router-id 10.0.0.3 -> 10.0.0.1"
-ros_cmd "$MK3_IP" '/routing/ospf/instance set default4 router-id=10.0.0.1'
+ros_cmd "$MK3_IP" '/routing/ospf/instance set 0 router-id=10.0.0.1'
 
 echo "[ERRORS] Erreurs injectées - netlab validate devrait échouer"
