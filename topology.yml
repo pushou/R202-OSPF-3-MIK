@@ -1,15 +1,17 @@
-message:
-   Rendez fonctionnel cette maquette
+message: |
+   EXAMEN - Rendez fonctionnel cette maquette OSPF (3 routeurs MikroTik)
+   Le réseau présente des dysfonctionnements à identifier et corriger.
    - Commandes utiles
-   netlab connect Mikrotik1 
-   netlab status 
-   netlab addressing
-   netlab validate 
-   netlab down 
+     netlab connect Mikrotik1
+     netlab status
+     netlab report addressing
+     netlab validate
+     netlab down
 
 provider: clab
 module: [ ospf ]
 ospf.area: 0
+plugin: [ clab_image_pull ]
 
 defaults:
   devices:
@@ -43,35 +45,61 @@ links:
 
 validate:
   wait:
-    description: attente de rip
-    wait: 10
+    description: attente de la convergence des routeurs
+    wait: 30
   ping:
     description: Ping-based reachability test
     nodes: [client1]
     devices: [ linux ]
     plugin: ping('client2',af='ipv4',count=3)
-  check_rip_routes:
-    description: Vérifier que frr4 reçoit les routes RIP
+  check_comp:
+    description: Vérifier le nombre (8) de routes actives et la distance (110) des routes OSPF
     nodes: [ Mikrotik1 ]
     devices: [ routeros7 ]
-    plugin: rip_route_count(7)
-  check_comp:
-    description: Vérifier le nombre (7) et la distance (120) des routes ospf
+    # Argument 1 : expected_count (routes actives), Argument 2 : expected_distance OSPF
+    plugin: check_comp(8, 110)
+  ospf_area_mk1:
+    description: Vérifier l'aire OSPF de Mikrotik1 (area 0.0.0.0)
     nodes: [ Mikrotik1 ]
-    # Argument 1 : expected_count, Argument 2 : expected_distance
-    plugin: check_comp(7, 120)
+    devices: [ routeros7 ]
+    plugin: ospf_area('0.0.0.0')
+  ospf_area_mk2:
+    description: Vérifier l'aire OSPF de Mikrotik2 (area 0.0.0.0)
+    nodes: [ Mikrotik2 ]
+    devices: [ routeros7 ]
+    plugin: ospf_area('0.0.0.0')
+  ospf_area_mk3:
+    description: Vérifier l'aire OSPF de Mikrotik3 (area 0.0.0.0)
+    nodes: [ Mikrotik3 ]
+    devices: [ routeros7 ]
+    plugin: ospf_area('0.0.0.0')
+  ospf_rid_mk1:
+    description: Vérifier le router-id OSPF de Mikrotik1 (10.0.0.1)
+    nodes: [ Mikrotik1 ]
+    devices: [ routeros7 ]
+    plugin: ospf_rid('10.0.0.1')
+  ospf_rid_mk2:
+    description: Vérifier le router-id OSPF de Mikrotik2 (10.0.0.2)
+    nodes: [ Mikrotik2 ]
+    devices: [ routeros7 ]
+    plugin: ospf_rid('10.0.0.2')
+  ospf_rid_mk3:
+    description: Vérifier le router-id OSPF de Mikrotik3 (10.0.0.3)
+    nodes: [ Mikrotik3 ]
+    devices: [ routeros7 ]
+    plugin: ospf_rid('10.0.0.3')
   ospf_routes_mk1:
     description: Vérifier le nombre de routes OSPF sur Mikrotik1 (4 routes attendues)
     nodes: [ Mikrotik1 ]
     devices: [ routeros7 ]
     plugin: ospf_route_count(4)
   ospf_routes_mk2:
-    description: Vérifier le nombre de routes OSPF sur Mikrotik2 (3 routes attendues)
+    description: Vérifier le nombre de routes OSPF sur Mikrotik2 (4 routes attendues)
     nodes: [ Mikrotik2 ]
     devices: [ routeros7 ]
     plugin: ospf_route_count(4)
   ospf_routes_mk3:
-    description: Vérifier le nombre de routes OSPF sur Mikrotik3 (3 routes attendues)
+    description: Vérifier le nombre de routes OSPF sur Mikrotik3 (4 routes attendues)
     nodes: [ Mikrotik3 ]
     devices: [ routeros7 ]
     plugin: ospf_route_count(4)
