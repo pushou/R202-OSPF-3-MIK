@@ -11,16 +11,18 @@ provider: clab
 module: [ ospf ]
 ospf.area: 0
 
+defaults:
+  devices:
+    routeros7:
+      clab:
+        image: registry.iutbeziers.fr/mikrotik_routeros:7.18
 
 nodes:
   Mikrotik1:
-    image: registry.iutbeziers.fr/mikrotik_routeros:7.18
     device: routeros7
   Mikrotik2:
-    image: registry.iutbeziers.fr/mikrotik_routeros:7.18
     device: routeros7
   Mikrotik3:
-    image: registry.iutbeziers.fr/mikrotik_routeros:7.18
     device: routeros7
   client1:
     device: linux
