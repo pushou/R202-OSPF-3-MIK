@@ -1,13 +1,12 @@
 message: |
-   EXAMEN - Rendez fonctionnel cette maquette OSPF (3 routeurs MikroTik)
-   Le réseau présente des dysfonctionnements à identifier et corriger.
+   EXAMEN - Rendez fonctionnel cette maquette OSPF (3 routeurs MikroTik) en configurant le Mikrotik3
    - Commandes utiles
-     netlab connect Mikrotik1
-     netlab status
-     netlab report addressing
-     netlab validate
-     netlab down
-
+    netlab connect Mikrotik3
+    netlab status
+    netlab addressing
+    netlab validate
+    netlab down (repart à zéro)
+    nelab down --force --cleanup (force le redémarrage à zéro)
 provider: clab
 module: [ ospf ]
 ospf.area: 0
@@ -26,6 +25,7 @@ nodes:
     device: routeros7
   Mikrotik3:
     device: routeros7
+    skip_config: [ ospf ]
   client1:
     device: linux
     image: wbitt/network-multitool:latest
